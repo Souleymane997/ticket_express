@@ -1,24 +1,24 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_express/models/custom_text.dart';
 import 'package:ticket_express/widgets/screens/navDrawer.dart';
-import 'package:ticket_express/widgets/screens/trajet.dart';
+import 'package:ticket_express/widgets/screens/search.dart';
 import '../../models/slidepage.dart';
-import '../../theme/color.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashbord extends StatefulWidget {
-  const Dashbord({Key? key, required this.choix}) : super(key: key);
+  const Dashbord({Key? key}) : super(key: key);
 
-  final int choix;
   @override
   State<Dashbord> createState() => _DashbordState();
 }
 
 class _DashbordState extends State<Dashbord> {
-  TimeOfDay time = const TimeOfDay(hour: 10, minute: 30);
+  late SharedPreferences saveDataConnect;
+  int choix = 0;
 
+  TimeOfDay time = const TimeOfDay(hour: 10, minute: 30);
   TextEditingController userController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -28,13 +28,17 @@ class _DashbordState extends State<Dashbord> {
   String value = 'Ouagadougou';
   String value1 = 'Bobo dioulasso';
 
+  loadData() async {
+    saveDataConnect = await SharedPreferences.getInstance();
+    setState(() {
+      choix = saveDataConnect.getInt('login')!;
+    });
+    debugPrint(" choix = $choix");
+  }
+
   @override
   void initState() {
-    if (widget.choix == 0) {
-      debugPrint("pas connecté");
-    } else {
-      debugPrint("connecté");
-    }
+    loadData();
     super.initState();
   }
 
@@ -43,7 +47,7 @@ class _DashbordState extends State<Dashbord> {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: NavDrawer(
-        choix: widget.choix,
+        choix: choix,
       ),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -97,15 +101,23 @@ class _DashbordState extends State<Dashbord> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+          Navigator.of(context).push(
+            SlideRightRoute(
+                child: const SearchPage(),
+                page: const SearchPage(),
+                direction: AxisDirection.left),
+          );
+        },
         elevation: 10.0,
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.lightGreenAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40.0),
         ),
         child: const Icon(
           Icons.airplane_ticket,
-          color: Colors.white,
+          color: Colors.teal,
           size: 30,
         ),
       ),
@@ -117,7 +129,7 @@ class _DashbordState extends State<Dashbord> {
       children: [
         CustomText(
           "TICKET",
-          color: Colors.green,
+          color: Colors.lightGreenAccent,
           tex: 1.3,
           textAlign: TextAlign.left,
         ),
@@ -643,10 +655,11 @@ class _DashbordState extends State<Dashbord> {
                               ),
                             ),
                             onPressed: () {
+                              Navigator.pop(context);
                               Navigator.of(context).push(
                                 SlideRightRoute(
-                                    child: const TrajetPage(),
-                                    page: const TrajetPage(),
+                                    child: const SearchPage(),
+                                    page: const SearchPage(),
                                     direction: AxisDirection.left),
                               );
                             },

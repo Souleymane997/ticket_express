@@ -50,34 +50,3 @@ class TailleText {
     }
   }
 }
-
-class NotifPush {
-  String title = '';
-  String body = '';
-  int id = 0;
-
-  NotifPush(int id, String title, String body) {
-    title = title;
-    body = body;
-    id = id;
-  }
-}
-
-
-
-// ignore: camel_case_types
-class infoNotif {
-  String titre = '';
-  String message = '';
-  String date = '';
-  bool lu = true ;
-
-  infoNotif(this.titre, this.message, this.date, this.lu) {
-    titre = titre;
-    message = message;
-    date = date;
-    lu = lu;
-  }
-}
-
-

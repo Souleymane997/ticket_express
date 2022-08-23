@@ -10,11 +10,9 @@ class Contact extends StatefulWidget {
 class _ContactState extends State<Contact> {
   @override
    Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Container(
-          child: Text("contact"),
-        ),
+        child: Text("contact"),
       ),
     );
   }

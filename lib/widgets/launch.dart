@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:ticket_express/theme/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/custom_text.dart';
-import '../models/slidepage.dart';
 import 'home.dart';
 import 'screens/login.dart';
 
@@ -14,52 +13,37 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
-  //late SharedPreferences loginData;
-  late bool newUser;
+  late SharedPreferences saveDataConnect;
+  late int choix;
 
-  //* fonction Timer
-  startTimer() async {
-    Duration duration = const Duration(seconds: 5);
-    return Timer(duration, navigatePage);
-  }
+  void checkLogin() async {
+    saveDataConnect = await SharedPreferences.getInstance();
 
-//* fonction pour changer de page
-  void navigatePage() {
-    Navigator.of(context).push(
-      SlideRightRoute(
-          child: const LoginPage(),
-          page: const LoginPage(),
-          direction: AxisDirection.left),
-    );
+    choix = (saveDataConnect.getInt('login') ?? 0);
+    debugPrint("$choix");
 
-    // if (newUser) {
-    //   Navigator.of(context).push(
-    //     SlideRightRoute(
-    //         child: const LoginPage(),
-    //         page: const LoginPage(),
-    //         direction: AxisDirection.left),
-    //   );
-    // } else {
-    //   Navigator.of(context).push(
-    //     SlideRightRoute(
-    //         child: const HomePage(),
-    //         page: const HomePage(),
-    //         direction: AxisDirection.left),
-    //   );
-    // }
+    if (choix == 1) {
+      Timer(
+          const Duration(seconds: 3),
+          () => {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const HomePage()))
+              });
+    } else {
+      Timer(
+          const Duration(seconds: 3),
+          () => {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()))
+              });
+    }
   }
 
   @override
   void initState() {
-    //checkLogin();
-    startTimer();
+    checkLogin();
     super.initState();
   }
-
-  // void checkLogin() async {
-  //   loginData = await SharedPreferences.getInstance();
-  //   newUser = (loginData.getBool('login') ?? true);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +68,25 @@ class _LaunchState extends State<Launch> {
                       )),
                 ),
                 Container(height: 20.0),
-                CustomText(
-                  "Ticket EXPRESS",
-                  tex: TailleText(context).titre * 2.1,
-                  family: "Captain",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      "TICKET",
+                      color: Colors.lightGreenAccent,
+                      tex: TailleText(context).titre * 1.5,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    Container(
+                      width: 10,
+                    ),
+                    CustomText(
+                      "EXPRESS",
+                      color: Colors.white,
+                      tex: TailleText(context).titre * 1.5,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ],
                 ),
                 Container(height: 6.0),
                 CustomText(

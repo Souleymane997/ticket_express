@@ -1,4 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticket_express/widgets/menu/apropos.dart';
 import 'package:ticket_express/widgets/menu/contact.dart';
 import 'package:ticket_express/widgets/menu/profil.dart';
@@ -6,9 +9,29 @@ import 'package:ticket_express/widgets/screens/login.dart';
 import '../../models/custom_text.dart';
 import '../../models/slidepage.dart';
 
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatefulWidget {
   const NavDrawer({Key? key, required this.choix}) : super(key: key);
   final int choix;
+
+  @override
+  State<NavDrawer> createState() => _NavDrawerState();
+}
+
+class _NavDrawerState extends State<NavDrawer> {
+  late SharedPreferences saveDataConnect;
+  int choixUser = 0;
+
+  loadData() async {
+    saveDataConnect = await SharedPreferences.getInstance();
+    choixUser = saveDataConnect.getInt('login')!;
+  }
+
+  @override
+  void initState() {
+    
+    loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +51,7 @@ class NavDrawer extends StatelessWidget {
                     children: [
                       CustomText(
                         "TICKET",
-                        color: Colors.green,
+                        color: Colors.lightGreenAccent,
                         tex: 1.3,
                         textAlign: TextAlign.left,
                       ),
@@ -73,7 +96,7 @@ class NavDrawer extends StatelessWidget {
               ),
             ),
           ),
-          (choix == 1)
+          (widget.choix == 1)
               ? ListTile(
                   title: const Text("Profile"),
                   leading: const Icon(Icons.account_circle),
@@ -90,7 +113,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? const Divider(
                   color: Colors.teal,
                 )
@@ -98,7 +121,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? ListTile(
                   title: const Text("Contacts"),
                   leading: const Icon(Icons.contact_page),
@@ -115,7 +138,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? const Divider(
                   color: Colors.teal,
                 )
@@ -123,7 +146,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? ListTile(
                   title: const Text("A propos"),
                   leading: const Icon(Icons.info),
@@ -140,7 +163,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? const Divider(
                   color: Colors.teal,
                 )
@@ -148,7 +171,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 0)
+          (widget.choix == 0)
               ? ListTile(
                   onTap: () {
                     Navigator.of(context).push(
@@ -165,7 +188,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 0)
+          (widget.choix == 0)
               ? const Divider(
                   color: Colors.teal,
                 )
@@ -173,9 +196,10 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? ListTile(
                   onTap: () {
+                    saveDataConnect.setInt('login', 0);
                     Navigator.of(context).push(
                       SlideRightRoute(
                           child: const LoginPage(),
@@ -196,7 +220,7 @@ class NavDrawer extends StatelessWidget {
                   height: 0.0,
                   width: 0.0,
                 ),
-          (choix == 1)
+          (widget.choix == 1)
               ? const Divider(
                   color: Colors.teal,
                 )

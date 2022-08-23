@@ -12,8 +12,9 @@ class _ProfilState extends State<Profil> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+        // ignore: avoid_unnecessary_containers
         child: Container(
-          child: Text("profil"),
+          child: const Text("profil"),
         ),
       ),
     );

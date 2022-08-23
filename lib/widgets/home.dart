@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ticket_express/widgets/screens/notif.dart';
-import 'package:ticket_express/widgets/screens/plus.dart';
+import 'package:ticket_express/widgets/screens/ticket.dart';
+import 'package:ticket_express/widgets/screens/trajet.dart';
 
 import '../models/custom_text.dart';
 import '../theme/color.dart';
@@ -9,9 +9,8 @@ import 'screens/compagnie.dart';
 import 'screens/dashbord.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.choix}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
-  final int choix;
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -21,10 +20,10 @@ class _HomePageState extends State<HomePage> {
   bool exit = true;
 
   var screens = [
-    const Dashbord(choix: 0),
+    const Dashbord(),
     const CompagniePage(),
-    const Notifs(),
-    const Plus(),
+    const Ticket(),
+    const TrajetPage(),
   ];
 
   int id = 0;
@@ -34,10 +33,10 @@ class _HomePageState extends State<HomePage> {
     _selectedIndex = 0;
 
     screens = [
-      Dashbord(choix: widget.choix),
+      const Dashbord(),
       const CompagniePage(),
-      const Notifs(),
-      const Plus(),
+      const Ticket(),
+      const TrajetPage(),
     ];
 
     super.initState();
@@ -70,7 +69,8 @@ class _HomePageState extends State<HomePage> {
                                 child: CustomText(
                                   " Quitter l'application Ticket Express ? ",
                                   tex: TailleText(context).soustitre,
-                                  color: Colors.black87,
+                                  color: Colors.teal,
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                             ],
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                               horizontal: 5.0, vertical: 1.0),
                           primary: Colors.white,
                           onPrimary: Colors.white,
-                          shadowColor: Colors.blueAccent,
+                          shadowColor: Colors.teal,
                           elevation: 3.0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: CustomText(
                           "NON",
-                          color: Colors.blue,
+                          color: Colors.teal,
                           tex: TailleText(context).contenu,
                         )),
                     const SizedBox(width: 7.5),
@@ -106,9 +106,9 @@ class _HomePageState extends State<HomePage> {
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5.0, vertical: 1.0),
-                          primary: blue,
-                          onPrimary: Colors.blueAccent,
-                          shadowColor: Colors.blueAccent,
+                          primary: Colors.teal,
+                          onPrimary: Colors.white,
+                          shadowColor: Colors.teal,
                           elevation: 3.0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
@@ -173,24 +173,24 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage("assets/images/ticket.png"),
+              AssetImage("assets/images/bus.png"),
               size: 30,
             ),
-            label: "Ticket",
+            label: "Compagnies",
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage("assets/images/notifs.png"),
+              AssetImage("assets/images/tickettt.png"),
               size: 30,
             ),
-            label: 'Notifications',
+            label: 'Ticket',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage("assets/images/menuH.png"),
+              AssetImage("assets/images/map.png"),
               size: 30,
             ),
-            label: 'Plus',
+            label: 'Trajet',
           ),
         ]);
   }

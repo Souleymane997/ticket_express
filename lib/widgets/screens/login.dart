@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/custom_text.dart';
+import '../../models/dialoguetoast.dart';
 import '../../models/slidepage.dart';
 import '../home.dart';
 
@@ -18,14 +18,18 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  late bool newUser;
-
+  late SharedPreferences saveDataConnect;
   bool isHidden = true;
-  bool isInAsynCall = false;
+  late int choix;
+
+  loadData() async {
+    saveDataConnect = await SharedPreferences.getInstance();
+    choix = saveDataConnect.getInt('login')!;
+  }
 
   @override
   void initState() {
-    isInAsynCall = false;
+    loadData();
     super.initState();
   }
 
@@ -194,10 +198,15 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         onPressed: () {
+                          saveDataConnect.setInt('login', 1);
                           Navigator.of(context).push(
                             SlideRightRoute(
-                                child: const HomePage(choix: 1,),
-                                page: const HomePage(choix: 1,),
+                                child: const HomePage(
+                                 
+                                ),
+                                page: const HomePage(
+                                  
+                                ),
                                 direction: AxisDirection.left),
                           );
                         },
@@ -232,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 50,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.amber,
+                            primary: Colors.lightGreenAccent,
                             onPrimary: Colors.white,
                             shadowColor: Colors.blueGrey,
                             elevation: 8.0,
@@ -241,10 +250,18 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           onPressed: () {
+                            saveDataConnect.setInt('login', 0);
+                            debugPrint(
+                                " choix : ${saveDataConnect.getInt('login')}");
+                            DInfo.toastSuccess("Connecté avec success");
                             Navigator.of(context).push(
                               SlideRightRoute(
-                                  child: const HomePage(choix: 0,),
-                                  page: const HomePage(choix: 0,),
+                                  child: const HomePage(
+                                   
+                                  ),
+                                  page: const HomePage(
+                                    
+                                  ),
                                   direction: AxisDirection.left),
                             );
                           },

@@ -10,11 +10,9 @@ class Apropos extends StatefulWidget {
 class _AproposState extends State<Apropos> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Container(
-          child: Text("apropos"),
-        ),
+        child: Text("apropos"),
       ),
     );
   }
